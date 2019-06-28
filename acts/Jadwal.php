@@ -5,51 +5,51 @@ if (!$app) {
     header("Location:../index.php");
 }
 
-class ControllerMahasiswa extends Controller
+class ControllerJadwal extends Controller
 {
     public function __construct()
     { }
 
     public function index()
     {
-        $model = new ModelMahasiswa();
-        $view = new ViewMahasiswa();
+        $model = new ModelJadwal();
+        $view = new ViewJadwal();
         $view->index($model->findAll());
     }
 
     public function login()
     {
-        $model = new ModelMahasiswa();
+        $model = new ModelJadwal();
         $model->login();
     }
 
     public function logout()
     {
-        $model = new ModelMahasiswa();
+        $model = new ModelJadwal();
         $model->logout();
     }
 
     public function entry($id = 0)
     {
-        $model = new ModelMahasiswa();
-        $view = new ViewMahasiswa();
+        $model = new ModelJadwal();
+        $view = new ViewJadwal();
 
         $view->entry($model->find($id));
     }
     public function save($id)
     {
-        $model = new ModelMahasiswa();
+        $model = new ModelJadwal();
         $model->save($id);
     }
 
     public function delete($id = 0)
     {
-        $model = new ModelMahasiswa();
+        $model = new ModelJadwal();
         $model->delete($id);
     }
 }
 
-class ModelMahasiswa extends Model
+class ModelJadwal extends Model
 {
     public $id = 0;
     public $username = '';
@@ -82,7 +82,7 @@ class ModelMahasiswa extends Model
             }
         }
 
-        header("Location:" . $app->website . "/Mahasiswa/index");
+        header("Location:" . $app->website . "/Jadwal/index");
     }
 
     public function save($id)
@@ -151,7 +151,7 @@ class ModelMahasiswa extends Model
             die($ex->getMessage());
         }
 
-        header("Location:" . $app->website . "/Mahasiswa/index?message=" . implode('<br>', $message));
+        header("Location:" . $app->website . "/Jadwal/index?message=" . implode('<br>', $message));
     }
 
     public function find($id)
@@ -192,11 +192,10 @@ class ModelMahasiswa extends Model
 
         $result = array();
 
-        $sql = "SELECT s.nim, s.nama,CASE SUBSTRING(s.nim,6,1) when '1' then 'Laki-laki' else 'Perempuan' end as jk, concat(20,SUBSTRING(s.nim,2,2)) as angkatan, d.name
-                FROM advisorstudents s
-                LEFT OUTER JOIN educators d
-                ON (s.educators_id = d.id)
-                ORDER BY s.nama LIMIT 0, 1000";
+        $sql = "SELECT d.name as dosen, c.name as matkul, tc.name as kelas, r.name as ruang, t.day_name, t.start_time as masuk, t.end_time as keluar
+                FROM teachingcredits tc, educators d, courses c, schedules s, rooms r, times t
+                Where tc.educators_id = d.id AND tc.courses_id = c.id and s.teachingcredits_id = tc.id and s.rooms_id = r.id and s.times_id = t.id
+                ORDER BY d.name";
         try {
             $stmt = $app->connection->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -273,13 +272,13 @@ class ModelMahasiswa extends Model
     }
 }
 
-class ViewMahasiswa extends View
+class ViewJadwal extends View
 {
     public function entry($result)
     {
         global $app;
         ?>
-    <form action="<?php echo $app->website; ?>/Mahasiswa/save" method="POST">
+    <form action="<?php echo $app->website; ?>/Jadwal/save" method="POST">
         <input type="hidden" name="id" value="<?php echo $result->id; ?>">
         <div class="row">
             <div class="col-md-6 col-sm-12">
@@ -331,19 +330,20 @@ public function index($result)
 {
     global $app;
     ?>
-    <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Mahasiswa/entry/0">Tambah</a>
+    <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Jadwal/entry/0">Tambah</a>
     <div class="pmd-card pmd-z-depth pmd-card-custom-view">
         <div class="table-responsive">
             <table cellspacing="0" cellpadding="0" class="table pmd-table" id="table-propeller">
                 <thead>
                     <tr>
                         <th>Aksi</th>
-                        <th>NIM</th>
-                        <th>Nama Mahasiswa</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Angkatan</th>
-                        <th>Nama PA</th>
-                        
+                        <th>Dosen</th>
+                        <th>Mata Kuliah</th>
+                        <th>Kelas</th>
+                        <th>Ruangan</th>
+                        <th>Hari</th>
+                        <th>Masuk</th>
+                        <th>Keluar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -352,7 +352,7 @@ public function index($result)
                         ?>
                         <tr>
                             <td data-title="Aksi">
-                                <a href="<?php echo $app->website; ?>/Mahasiswa/entry/<?php echo $obj->id; ?>">
+                                <a href="<?php echo $app->website; ?>/Jadwal/entry/<?php echo $obj->id; ?>">
                                     <i class="media-left media-middle material-icons md-dark pmd-sm">
                                         mode_edit
                                     </i>
@@ -363,11 +363,13 @@ public function index($result)
                                     </i>
                                 </a>
                             </td>
-                            <td data-title="nim"><?php echo $obj->nim; ?></td>
-                            <td data-title="Nama"><?php echo $obj->nama; ?></td>
-                            <td data-title="jk"><?php echo $obj->jk; ?></td>
-                            <td data-title="angkatan"><?php echo $obj->angkatan; ?></td>
-                            <td data-title="pa"><?php echo $obj->name; ?></td>
+                            <td data-title="dosen"><?php echo $obj->dosen; ?></td>
+                            <td data-title="matkul"><?php echo $obj->matkul; ?></td>
+                            <td data-title="kelas"><?php echo $obj->kelas; ?></td>
+                            <td data-title="ruang"><?php echo $obj->ruang; ?></td>
+                            <td data-title="hari"><?php echo $obj->day_name; ?></td>
+                            <td data-title="nasuk"><?php echo $obj->masuk; ?></td>
+                            <td data-title="keluar"><?php echo $obj->keluar; ?></td>
                             
                         </tr>
                     <?php

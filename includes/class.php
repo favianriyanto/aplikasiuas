@@ -78,7 +78,7 @@ class Aplikasi {
 
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/propeller-admin.css">
     </head>
-    <body>
+    <body> 
         <?php
             if ($this->act == 'Beranda' &&  $this->task == 'index') {
                 echo $html;
@@ -108,7 +108,7 @@ class Aplikasi {
 <div class="pmd-sidebar-overlay"></div>
 
 <!-- Left sidebar -->
-<aside class="pmd-sidebar sidebar-default pmd-sidebar-slide-push pmd-sidebar-left pmd-sidebar-open bg-fill-darkblue sidebar-with-icons" role="navigation">
+<aside class="pmd-sidebar sidebar-default pmd-sidebar-slide-push pmd-sidebar-left pmd-sidebar-open bg-fill-darkblue sidebar-with-icons" role="navigation" style="background-color:#228B22">
 	<ul class="nav pmd-sidebar-nav">
                 
 		
@@ -252,42 +252,32 @@ class Aplikasi {
 		</li> -->
 		<li> 
 			<a class="pmd-ripple-effect" href="<?php echo $this->website; ?>/Pengguna/index">	
-				<i class="material-icons media-left md-light pmd-sm">people</i>
+				<i class="material-icons media-left md-light pmd-sm">person_outline</i>
 				<span class="media-body">Pengguna</span>
 			</a> 
 		</li>
         <li> 
 			<a class="pmd-ripple-effect" href="<?php echo $this->website; ?>/Matkul/index">	
-				<i class="material-icons media-left md-light pmd-sm">people</i>
+				<i class="material-icons media-left md-light pmd-sm">library_books</i>
 				<span class="media-body">Mata Kuliah</span>
 			</a> 
 		</li>
 		<li> 
 			<a class="pmd-ripple-effect" href="<?php echo $this->website; ?>/Mahasiswa/index">	
-				<i class="media-left media-middle">
-				<svg version="1.1" x="0px" y="0px" width="18px" height="12.479px" viewBox="288.64 363.118 18 12.479" enable-background="new 288.64 363.118 18 12.479" xml:space="preserve">
-					<g transform="translate(641.29613,1096.2351)">
-						<path fill="#C9C8C8" d="M-352.656-726.466v-5.828l4.484,4.484c2.467,2.466,4.499,4.484,4.516,4.484s2.049-2.018,4.516-4.484
-							l4.484-4.484v5.828v5.828h-9h-9V-726.466z M-347.854-728.929l-4.188-4.188h8.385h8.386l-4.188,4.188
-							c-2.304,2.303-4.192,4.188-4.198,4.188S-345.551-726.626-347.854-728.929z"/>
-					</g>
-				</svg></i> 
+			<i class="material-icons media-left md-light pmd-sm">people</i>
 				<span class="media-body">Mahasiswa</span>
 			</a> 
 		</li>
 		<li> 
 			<a class="pmd-ripple-effect" href="<?php echo $this->website; ?>/Dosen/index">	
-				<i class="media-left media-middle">
-				<svg version="1.1" id="Layer_1" x="0px" y="0px" width="15.3px" height="18px" viewBox="289.99 337.535 15.3 18" enable-background="new 289.99 337.535 15.3 18" xml:space="preserve">
-					<g>
-						<g>
-							<path fill="#C9C8C8" d="M297.64,355.535c0.99,0,1.8-0.81,1.8-1.8h-3.6C295.84,354.725,296.65,355.535,297.64,355.535z
-								 M303.49,350.135v-4.95c0-2.79-1.891-5.041-4.501-5.67v-0.63c0-0.72-0.63-1.35-1.35-1.35c-0.72,0-1.35,0.63-1.35,1.35v0.63
-								c-2.61,0.629-4.5,2.88-4.5,5.67v4.95l-1.8,1.8v0.9h15.3v-0.9L303.49,350.135z"/>
-						</g>
-					</g>
-				</svg></i> 
+			<i class="material-icons media-left md-light pmd-sm">people</i>
 				<span class="media-body">Dosen</span>
+			</a> 
+		</li>
+		<li> 
+			<a class="pmd-ripple-effect" href="<?php echo $this->website; ?>/Jadwal/index">	
+			<i class="material-icons media-left md-light pmd-sm">people</i>
+				<span class="media-body">Jadwal</span>
 			</a> 
 		</li>
 		
@@ -296,7 +286,7 @@ class Aplikasi {
 <!-- Sidebar Ends --> 
 
 <!--content area start-->
-<div id="content" class="pmd-content content-area dashboard">
+<div id="content" class="pmd-content content-area dashboard" >
 <?php echo $html; ?>
 </div>
  

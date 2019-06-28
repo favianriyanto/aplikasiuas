@@ -37,19 +37,19 @@ class ViewBeranda extends View {
     public function login() {
         global $app;
 ?>
-    <body style="background-color:black">
+    <body style="background-image:url(images/bg4.jpg)">
     <div class="logincard">
-  	<div class="pmd-card card-default pmd-z-depth">
+  	<div class="pmd-card card-default pmd-z-depth" style="border-style:solid; border-color:#228B22; border-width:thick" >
 		<div class="login-card">
 			<form action="<?php echo $app->website; ?>/Pengguna/login" method="post">	
 				<div class="pmd-card-title card-header-border text-center">
 					<div class="loginlogo">
-						<a href="javascript:void(0);"><img src="images/logo-icon.png" alt="Logo"></a>
+						<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
 					</div>
-					<h3>Sign In <span>with <strong>PROPELLER</strong></span></h3>
+					<h3 style="font-family:Poor Richard; color:#228B22">Wellcome to IRAISE</h3>
 				</div>
 				
-				<div class="pmd-card-body">
+				<div class="pmd-card-body" style="font-family:Times New Roman">
 					<div class="alert alert-success" role="alert"> Oh snap! Change a few things up and try submitting again. </div>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label for="inputError1" class="control-label pmd-input-group-label">Username</label>
@@ -68,7 +68,7 @@ class ViewBeranda extends View {
                     </div>
                 </div>
 				<div class="pmd-card-footer card-footer-no-border card-footer-p16 text-center">
-					<input type="submit" class="btn pmd-ripple-effect btn-primary btn-block" value="Login">
+					<input type="submit" style="background-color:#228B22" class="btn pmd-ripple-effect btn-primary btn-block" value="Login">
                 </div>
 				
 			</form>
@@ -77,9 +77,9 @@ class ViewBeranda extends View {
 		<div class="register-card">
 			<div class="pmd-card-title card-header-border text-center">
 				<div class="loginlogo">
-					<a href="javascript:void(0);"><img src="themes/images/logo-icon.png" alt="Logo"></a>
+					<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
 				</div>
-				<h3>Sign Up <span>with <strong>PROPELLER</strong></span></h3>
+				<h3>Selamat Datang <span>di <strong>IRAISE</strong></span></h3>
 			</div>
 			<form>	
 			  <div class="pmd-card-body">
@@ -120,7 +120,7 @@ class ViewBeranda extends View {
 			<form>	
 			  <div class="pmd-card-title card-header-border text-center">
 				<div class="loginlogo">
-					<a href="javascript:void(0);"><img src="themes/images/logo-icon.png" alt="Logo"></a>
+					<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
 				</div>
 				<h3>Forgot password?<br><span>Submit your email address and we'll send you a link to reset your password.</span></h3>
 			</div>
@@ -141,6 +141,7 @@ class ViewBeranda extends View {
 		</div>
 	</div>
 </div>
+</body>
 
 <?php
     }

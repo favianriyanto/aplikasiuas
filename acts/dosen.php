@@ -182,9 +182,9 @@ class ModelDosen extends Model {
 
         $result = array();
 
-        $sql = "SELECT *
-                FROM educators
-                ORDER BY name";
+        $sql = "SELECT d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, d.date_of_birth as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
+                FROM educators d
+                ORDER BY nama";
         try {
 			$stmt = $app->connection->prepare($sql);
 			$stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -321,9 +321,16 @@ class ViewDosen extends View {
             <thead>
                 <tr>
                     <th>Aksi</th>
-                    <th>No. Identitas</th>
+                    <th>NIP</th>
                     <th>Kode</th>
                     <th>Nama Dosen</th>
+                    <th>Tempat Lahir</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Pendidikan</th>
+                    <th>Jabatan</th>
+                    <th>Keahlian</th>
+                    <th>Email</th>
+                    <th>Telpon</th>
                 </tr>
             </thead>
             <tbody>
@@ -343,9 +350,16 @@ class ViewDosen extends View {
                             </i>
                         </a>
                     </td>
-                    <td data-title="no_identitas"><?php echo $obj->identity_number; ?></td>
-                    <td data-title="kode"><?php echo $obj->code; ?></td>
-                    <td data-title="namadosen"><?php echo $obj->name; ?></td>
+                    <td data-title="nip"><?php echo $obj->nip; ?></td>
+                    <td data-title="kode"><?php echo $obj->kode; ?></td>
+                    <td data-title="namap"><?php echo $obj->nama; ?></td>
+                    <td data-title="pob"><?php echo $obj->pob; ?></td>
+                    <td data-title="dob"><?php echo $obj->dob; ?></td>
+                    <td data-title="pendidikan"><?php echo $obj->pendidikan; ?></td>
+                    <td data-title="jabatan"><?php echo $obj->jabatan; ?></td>
+                    <td data-title="keahlian"><?php echo $obj->keahlian; ?></td>
+                    <td data-title="email"><?php echo $obj->email; ?></td>
+                    <td data-title="phone"><?php echo $obj->phone ?></td>
                 </tr>
 <?php
     }
