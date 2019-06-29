@@ -284,23 +284,23 @@ class ViewPengguna extends View
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
                         <h1>Pengguna</h1>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <div>
                             <label for="username" class="control-label">Username</label>
                             <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <div>
                             <label for="password" class="control-label">Password</label>
-                            <input id="password" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
+                            <input id="password" onfocus="this.value=''" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <div>
                             <label for="name" class="control-label">Nama</label>
                             <input id="name" name="name" class="form-control" value="<?php echo $result->name; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <div>
                             <label for="position" class="control-label">Posisi</label>
                             <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield">
+                        <div>
                             <label for="level" class="control-label">Level Akses</label>
                             <select class="form-control" id="level" name="level">
                                 <?php
@@ -329,10 +329,16 @@ public function index($result)
 {
     global $app;
     ?>
-    <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/entry/0">Tambah</a>
-    <div class="pmd-card pmd-z-depth pmd-card-custom-view">
-        <div class="table-responsive">
-            <table cellspacing="0" cellpadding="0" class="table pmd-table" id="table-propeller">
+    <div style="margin-top:-70px; margin-bottom:20px;">
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/entry/0">Tambah</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/index">Semua</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaAdmin/index">Admin</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaMahasiswa/index">Mahasiswa</a>
+    </div>
+    <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Aksi</th>
@@ -350,14 +356,10 @@ public function index($result)
                         <tr>
                             <td data-title="Aksi">
                                 <a href="<?php echo $app->website; ?>/Pengguna/entry/<?php echo $obj->id; ?>">
-                                    <i class="media-left media-middle material-icons md-dark pmd-sm">
-                                        mode_edit
-                                    </i>
+                                <i class="fas fa-edit fa-2x"></i>
                                 </a>
                                 <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->username; ?>');">
-                                    <i class="media-left media-middle material-icons md-dark pmd-sm">
-                                        delete_forever
-                                    </i>
+                                <i class="fas fa-trash fa-2x"></i>
                                 </a>
                             </td>
                             <td data-title="Username"><?php echo $obj->username; ?></td>

@@ -37,109 +37,49 @@ class ViewBeranda extends View {
     public function login() {
         global $app;
 ?>
-    <body style="background-image:url(images/bg4.jpg)">
-    <div class="logincard">
-  	<div class="pmd-card card-default pmd-z-depth" style="border-style:solid; border-color:#228B22; border-width:thick" >
-		<div class="login-card">
-			<form action="<?php echo $app->website; ?>/Pengguna/login" method="post">	
-				<div class="pmd-card-title card-header-border text-center">
-					<div class="loginlogo">
-						<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
-					</div>
-					<h3 style="font-family:Poor Richard; color:#228B22">Wellcome to IRAISE</h3>
-				</div>
-				
-				<div class="pmd-card-body" style="font-family:Times New Roman">
-					<div class="alert alert-success" role="alert"> Oh snap! Change a few things up and try submitting again. </div>
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Username</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">perm_identity</i></div>
-                            <input type="text" class="form-control" name="username" autofocus required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Password</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">lock_outline</i></div>
-                            <input type="password" class="form-control" name="password" required>
-                        </div>
-                    </div>
+    <body class="bg-gradient-primary">
+
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Silahkan Login😍</h1>
                 </div>
-				<div class="pmd-card-footer card-footer-no-border card-footer-p16 text-center">
-					<input type="submit" style="background-color:#228B22" class="btn pmd-ripple-effect btn-primary btn-block" value="Login">
+                <form action="<?php echo $app->website; ?>/Pengguna/login" method="post" class="user">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="username" placeholder="Username" required autofocus>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password" required>
+                  </div>
+                  <input type="submit" class="btn btn-primary btn-user btn-block" value="LOGIN">
+                  <hr>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <h3 class="small">Copyright Favian & Ferdian 2019</h3>
                 </div>
-				
-			</form>
-		</div>
-		
-		<div class="register-card">
-			<div class="pmd-card-title card-header-border text-center">
-				<div class="loginlogo">
-					<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
-				</div>
-				<h3>Selamat Datang <span>di <strong>IRAISE</strong></span></h3>
-			</div>
-			<form>	
-			  <div class="pmd-card-body">
-              
-              	<div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Username</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">perm_identity</i></div>
-                            <input type="text" class="form-control" id="exampleInputAmount">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Email address</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">email</i></div>
-                            <input type="text" class="form-control" id="exampleInputAmount">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Password</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">lock_outline</i></div>
-                            <input type="text" class="form-control" id="exampleInputAmount">
-                        </div>
-                    </div>
               </div>
-			  
-			  <div class="pmd-card-footer card-footer-no-border card-footer-p16 text-center">
-				<a href="index.html" type="button" class="btn pmd-ripple-effect btn-primary btn-block">Sign Up</a>
-			  	<p class="redirection-link">Already have an account? <a href="javascript:void(0);" class="register-login">Sign In</a>. </p>
-			  </div>
-			</form>
-		</div>
-		
-		<div class="forgot-password-card">
-			<form>	
-			  <div class="pmd-card-title card-header-border text-center">
-				<div class="loginlogo">
-					<a href="javascript:void(0);"><img src="images/uinss.jpg" alt="Logo"></a>
-				</div>
-				<h3>Forgot password?<br><span>Submit your email address and we'll send you a link to reset your password.</span></h3>
-			</div>
-			  <div class="pmd-card-body">
-					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="inputError1" class="control-label pmd-input-group-label">Email address</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="material-icons md-dark pmd-sm">email</i></div>
-                            <input type="text" class="form-control" id="exampleInputAmount">
-                        </div>
-                    </div>
-				</div>
-			  <div class="pmd-card-footer card-footer-no-border card-footer-p16 text-center">
-			  	<a href="index.html" type="button" class="btn pmd-ripple-effect btn-primary btn-block">Submit</a>
-			  	<p class="redirection-link">Already registered? <a href="javascript:void(0);" class="register-login">Sign In</a></p>
-			  </div>
-			</form>
-		</div>
-	</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 </body>
 

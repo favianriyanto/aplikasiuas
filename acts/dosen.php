@@ -314,13 +314,16 @@ class ViewDosen extends View {
     public function index($result) {
         global $app;
 ?>
-<a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Dosen/entry/0">Tambah</a>
-<div class="pmd-card pmd-z-depth pmd-card-custom-view">
-    <div class="table-responsive"> 
-        <table cellspacing="0" cellpadding="0" class="table pmd-table" id="table-propeller">
+<div style="margin-top:-70px; margin-bottom:20px;">
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Dosen/entry/0">Tambah</a>
+    </div>
+<div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Aksi</th>
+                    <th width="100px">Aksi</th>
                     <th>NIP</th>
                     <th>Kode</th>
                     <th>Nama Dosen</th>
@@ -340,14 +343,10 @@ class ViewDosen extends View {
                 <tr>
                     <td data-title="Aksi">
                         <a href="<?php echo $app->website; ?>/Dosen/entry/<?php echo $obj->id; ?>">
-                            <i class="media-left media-middle material-icons md-dark pmd-sm">
-                                mode_edit
-                            </i>
+                        <i class="fas fa-edit fa-2x"></i>
                         </a>
                         <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->nim; ?>');">
-                            <i class="media-left media-middle material-icons md-dark pmd-sm">
-                                delete_forever
-                            </i>
+                        <i class="fas fa-trash fa-2x"></i>
                         </a>
                     </td>
                     <td data-title="nip"><?php echo $obj->nip; ?></td>
