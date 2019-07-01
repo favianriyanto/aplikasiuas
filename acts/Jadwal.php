@@ -55,7 +55,7 @@ class ModelJadwal extends Model
     public $username = '';
     public $password = '';
     public $level = '';
-    public $name = '';
+    public $matkul = '';
     public $position = '';
 
     public function delete($id = 0)
@@ -93,7 +93,7 @@ class ModelJadwal extends Model
         $username = isset($_POST['username']) ? $_POST['username'] : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         $level = isset($_POST['level']) ? $_POST['level'] : '';
-        $name = isset($_POST['name']) ? $_POST['name'] : '';
+        $matkul = isset($_POST['c.name']) ? $_POST['c.name'] : '';
         $position = isset($_POST['position']) ? $_POST['position'] : '';
 
         $message = array();
@@ -192,10 +192,10 @@ class ModelJadwal extends Model
 
         $result = array();
 
-        $sql = "SELECT d.name as dosen, c.name as matkul, tc.name as kelas, r.name as ruang, t.day_name, t.start_time as masuk, t.end_time as keluar
+        $sql = "SELECT CONCAT(c.name ,' - ',tc.name) as matkul, c.code as kode, tc.name as kelas, c.credit_unit as sks, d.name as dosen, r.name as ruang, t.day_name, t.start_time as masuk, max(t.end_time) as keluar
                 FROM teachingcredits tc, educators d, courses c, schedules s, rooms r, times t
                 Where tc.educators_id = d.id AND tc.courses_id = c.id and s.teachingcredits_id = tc.id and s.rooms_id = r.id and s.times_id = t.id
-                ORDER BY t.id, r.name";
+                group by matkul";
         try {
             $stmt = $app->connection->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -286,7 +286,11 @@ class ViewJadwal extends View
                     <div class="pmd-card-body">
                         <h1>Jadwal</h1>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="username" class="control-label">Username</label>
+                            <label for="username" class="control-label">Matakuliah</label>
+                            <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                            <label for="username" class="control-label">Kelas</label>
                             <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
@@ -340,13 +344,14 @@ public function index($result)
                 <thead>
                     <tr>
                         <th>Aksi</th>
+                        <th>Kode MK</th>
+                        <th>Mata Kuliah - Kelas</th>
                         <th>Dosen</th>
-                        <th>Mata Kuliah</th>
-                        <th>Kelas</th>
-                        <th>Ruangan</th>
-                        <th>Hari</th>
-                        <th>Masuk</th>
-                        <th>Keluar</th>
+                        <th>SKS</th>
+                        <th>Hari - Ruangan</th>
+                        <!-- <th>Hari</th> -->
+                        <th>Jam</th>
+                        <!-- <th>Keluar</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -362,13 +367,14 @@ public function index($result)
                                 <i class="fas fa-trash fa-2x"></i>
                                 </a>
                             </td>
+                            <td data-title="dosen"><?php echo $obj->kode; ?></td>
+                            <td data-title="matkul"><?php echo $obj->matkul?></td>
                             <td data-title="dosen"><?php echo $obj->dosen; ?></td>
-                            <td data-title="matkul"><?php echo $obj->matkul; ?></td>
-                            <td data-title="kelas"><?php echo $obj->kelas; ?></td>
-                            <td data-title="ruang"><?php echo $obj->ruang; ?></td>
-                            <td data-title="hari"><?php echo $obj->day_name; ?></td>
-                            <td data-title="nasuk"><?php echo $obj->masuk; ?></td>
-                            <td data-title="keluar"><?php echo $obj->keluar; ?></td>
+                            <td data-title="kelas"><?php echo $obj->sks; ?></td>
+                            <td data-title="ruang"><?php echo $obj->day_name. " - " .$obj->ruang; ?></td>
+                            <!-- <td data-title="hari"><?php echo $obj->day_name; ?></td> -->
+                            <td data-title="nasuk"><?php echo $obj->masuk. " - " .$obj->keluar; ?></td>
+                            <!-- <td data-title="keluar"><?php echo $obj->keluar; ?></td> -->
                             
                         </tr>
                     <?php

@@ -27,60 +27,95 @@ class ModelBeranda extends Model {
 
 class ViewBeranda extends View {
     public function dashboard() {
+
+      if($_SESSION['user']->level!="Administrator"){
+        header("location:../BerandaMahasiswa/dashboard");
+      }
         global $app;
         
         if (!isset($_SESSION['user'])) {
             header("Location:".$app->website);
         }
+        echo "<h1>Semangat yang lagi ngerjain ini website :*</h1>";
+        ?>
+        <!-- Donut Chart -->
+        <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Grafik Jumlah Mahasiswa per Angkatan</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4">
+                    <canvas id="chart"></canvas>
+                  </div>
+                  <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-primary"></i> Direct
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> Social
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-info"></i> Referral
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php
     }
 
     public function login() {
         global $app;
 ?>
-    <body class="bg-gradient-primary">
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="images/img-01.png" alt="IMG">
+				</div>
 
-<div class="container">
+				<form action="<?php echo $app->website; ?>/Pengguna/login" method="post" class="login100-form validate-form">
+					<span class="login100-form-title">
+						Silahkan Login😍
+					</span>
 
-  <!-- Outer Row -->
-  <div class="row justify-content-center">
+					<div class="wrap-input100 validate-input" data-validate = "Masukkan Username">
+						<input class="input100" type="text" name="username" placeholder="Username">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-users" aria-hidden="true"></i>
+						</span>
+					</div>
 
-    <div class="col-xl-10 col-lg-12 col-md-9">
-
-      <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-body p-0">
-          <!-- Nested Row within Card Body -->
-          <div class="row">
-            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-            <div class="col-lg-6">
-              <div class="p-5">
-                <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Silahkan Login😍</h1>
-                </div>
-                <form action="<?php echo $app->website; ?>/Pengguna/login" method="post" class="user">
-                  <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="username" placeholder="Username" required autofocus>
-                  </div>
-                  <div class="form-group">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password" required>
-                  </div>
-                  <input type="submit" class="btn btn-primary btn-user btn-block" value="LOGIN">
-                  <hr>
-                </form>
-                <hr>
-                <div class="text-center">
-                  <h3 class="small">Copyright Favian & Ferdian 2019</h3>
-                </div>
-              </div>
-            </div>
+					<div class="wrap-input100 validate-input" data-validate = "Masukkan Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
           </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
+          
+          <div class="container-login100-form-btn">
+						<button type="submit" class="login100-form-btn">
+							Login
+						</button>
+          </div>
+					<div class="text-center p-t-60">
+						<a class="txt2">
+							Copyright Favian - Ferdian 2019.
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 
 <?php

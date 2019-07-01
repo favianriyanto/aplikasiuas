@@ -4,6 +4,9 @@ global $app;
 if (!$app) {
    header("Location:../index.php");
 }
+else if($_SESSION['user']->level!="Administrator"){
+    header("location:../index.php");
+}
 
 class ControllerDosen extends Controller {
     public function __construct() {
@@ -182,7 +185,7 @@ class ModelDosen extends Model {
 
         $result = array();
 
-        $sql = "SELECT d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, d.date_of_birth as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
+        $sql = "SELECT d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, DATE_FORMAT(d.date_of_birth,'%d/%M/%Y') as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
                 FROM educators d
                 ORDER BY nama";
         try {
@@ -269,21 +272,42 @@ class ViewDosen extends View {
 			<div class="col-md-6 col-sm-12">
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
-                        <h1>Dosen</h1> 
+                        <h1>Dosen(BETA)</h1> 
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="username" class="control-label">Username</label>
+                            <label for="username" class="control-label">Nama Lengkap</label>
                             <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="password" class="control-label">Password</label>
+                            <label for="password" class="control-label">Tanggal Lahir</label>
                             <input id="password" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="name" class="control-label">Nama</label>
+                            <label for="name" class="control-label">Tempat Lahir</label>
                             <input id="name" name="name" class="form-control" value="<?php echo $result->name; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="position" class="control-label">Posisi</label>
+                            <label for="position" class="control-label">Kode</label>
+                            <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                            <label for="position" class="control-label">Kode Alias</label>
+                            <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div class="form-group pmd-textfield">
+                            <label for="position" class="control-label">Tipe Identitas</label>
+                            <select class="form-control" id="identity_type" name="identity_type">
+<?php
+    $level = array("NIP", "NIK");
+    foreach ($level as $v) {
+?>
+                                <option value="<?php echo $v; ?>" <?php echo ($v == $result->level) ? 'selected' : ''; ?>><?php echo $v; ?></option>
+<?php
+    }
+?>
+                            </select>
+                        </div>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                            <label for="position" class="control-label">Kode Alias</label>
                             <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield">
@@ -302,7 +326,7 @@ class ViewDosen extends View {
                     </div>
                     <div class="pmd-card-action" style="padding:20px;">
                         <button type="submit" class="btn pmd-ripple-effect btn-success"> Simpan </button>
-                        <a href="<?php echo $app->website; ?>/Mahasiswa/index" class="btn pmd-ripple-effect btn-danger"> Batal </a>
+                        <a href="<?php echo $app->website; ?>/Dosen/index" class="btn pmd-ripple-effect btn-danger"> Batal </a>
                     </div>
                 </div>
             </div>
@@ -327,7 +351,7 @@ class ViewDosen extends View {
                     <th>NIP</th>
                     <th>Kode</th>
                     <th>Nama Dosen</th>
-                    <th>Tempat Lahir</th>
+                    <!-- <th>Tempat Lahir</th> -->
                     <th>Tanggal Lahir</th>
                     <th>Pendidikan</th>
                     <th>Jabatan</th>
@@ -352,7 +376,7 @@ class ViewDosen extends View {
                     <td data-title="nip"><?php echo $obj->nip; ?></td>
                     <td data-title="kode"><?php echo $obj->kode; ?></td>
                     <td data-title="namap"><?php echo $obj->nama; ?></td>
-                    <td data-title="pob"><?php echo $obj->pob; ?></td>
+                    <!-- <td data-title="pob"><?php echo $obj->pob; ?></td> -->
                     <td data-title="dob"><?php echo $obj->dob; ?></td>
                     <td data-title="pendidikan"><?php echo $obj->pendidikan; ?></td>
                     <td data-title="jabatan"><?php echo $obj->jabatan; ?></td>

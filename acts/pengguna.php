@@ -4,6 +4,9 @@ global $app;
 if (!$app) {
     header("Location:../index.php");
 }
+else if($_SESSION['user']->level!="Administrator"){
+    header("location:../index.php");
+}
 
 class ControllerPengguna extends Controller
 {
@@ -358,7 +361,7 @@ public function index($result)
                                 <a href="<?php echo $app->website; ?>/Pengguna/entry/<?php echo $obj->id; ?>">
                                 <i class="fas fa-edit fa-2x"></i>
                                 </a>
-                                <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->username; ?>');">
+                                <a onClick="javascript:return confirm('are you sure you want to delete this?');" href="<?php echo $app->website; ?>/Pengguna/delete/<?php echo $obj->id; ?>">
                                 <i class="fas fa-trash fa-2x"></i>
                                 </a>
                             </td>

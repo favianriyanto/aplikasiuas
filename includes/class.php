@@ -64,7 +64,7 @@ class Aplikasi {
 ?>
 <html>
     <head>
-        <title>Test</title>
+        <title>Admin - Favian & Ferdian</title>
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/propeller.min.css">
 		
@@ -72,7 +72,11 @@ class Aplikasi {
 		<link rel="stylesheet" href="<?php echo $this->website; ?>/css/sb-admin-2.min.css">
 		<link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/fontawesome-free/css/all.min.css">
 		<link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.css">
-
+		
+		<link rel="stylesheet" href="<?php echo $this->website; ?>/css/util.css">
+		<link rel="stylesheet" href="<?php echo $this->website; ?>/css/main.css">
+		<link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/css-hamburgers/hamburgers.min.css">
+		<link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/animate/animate.css">
 
     </head>
     <body> 
@@ -80,7 +84,7 @@ class Aplikasi {
             if ($this->act == 'Beranda' &&  $this->task == 'index') {
                 echo $html;
             } else {
-                ?>
+				?>
 
 <!-- Sidebar Starts -->
 <div class="pmd-sidebar-overlay"></div>
@@ -101,7 +105,7 @@ class Aplikasi {
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-  <a class="nav-link" href="index.html">
+  <a class="nav-link" href="<?php echo $this->website; ?>/Beranda/dashboard">
 	<i class="fas fa-fw fa-tachometer-alt"></i>
 	<span>Dashboard</span></a>
 </li>
@@ -175,42 +179,48 @@ class Aplikasi {
 </li>
 
 <!-- Nav Item - Charts -->
-<li class="nav-item">
+<li id="menu1" class="nav-item">
   <a class="nav-link" href="<?php echo $this->website; ?>/Pengguna/index">
-	<i class="fas fa-fw fa-chart-area"></i>
+	<i class="fas fa-fw fa-users"></i>
 	<span>Pengguna</span></a>
 </li>
 
-<li class="nav-item">
+<li id="menu2" class="nav-item">
   <a class="nav-link" href="<?php echo $this->website; ?>/Mahasiswa/index">
-	<i class="fas fa-fw fa-chart-area"></i>
+	<i class="fas fa-fw fa-users"></i>
 	<span>Mahasiswa</span></a>
 </li>
 
-<li class="nav-item">
+<li id="menu3" class="nav-item">
   <a class="nav-link" href="<?php echo $this->website; ?>/Dosen/index">
-	<i class="fas fa-fw fa-chart-area"></i>
+  	<i class="fas fa-chalkboard-teacher"></i>
 	<span>Dosen</span></a>
 </li>
 
-<li class="nav-item">
+<li id="menu4" class="nav-item">
   <a class="nav-link" href="<?php echo $this->website; ?>/Matkul/index">
-	<i class="fas fa-fw fa-chart-area"></i>
+	<i class="fas fa-fw fa-book"></i>
 	<span>Mata Kuliah</span></a>
 </li>
 
-<li class="nav-item">
+<li id="menu5" class="nav-item">
   <a class="nav-link" href="<?php echo $this->website; ?>/Jadwal/index">
-	<i class="fas fa-fw fa-chart-area"></i>
+	<i class="fas fa-fw fa-clock"></i>
 	<span>Jadwal</span></a>
 </li>
 
 <!-- Nav Item - Tables -->
-<!-- <li class="nav-item">
-  <a class="nav-link" href="tables.html">
+<li id="menu6" class="nav-item">
+  <a class="nav-link" href="<?php echo $this->website; ?>/Kelas/index">
 	<i class="fas fa-fw fa-table"></i>
-	<span>Tables</span></a>
-</li> -->
+	<span>Kelas</span></a>
+</li>
+
+<li id="menu7" class="nav-item">
+  <a class="nav-link" href="<?php echo $this->website; ?>/Isikrs/index">
+	<i class="fas fa-fw fa-table"></i>
+	<span>Isi KRS</span></a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
@@ -382,11 +392,11 @@ class Aplikasi {
 		</a>
 		<!-- Dropdown - User Information -->
 		<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-		  <a class="dropdown-item" href="<?php echo $this->website; ?>/Pengguna/index">
+		  <a id="menuprofile" class="dropdown-item" href="<?php echo $this->website; ?>/Pengguna/index">
 			<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 			Profile
 		  </a>
-		  <div class="dropdown-divider"></div>
+		  <div id="menugaris" class="dropdown-divider"></div>
 		  <a class="dropdown-item" href="<?php echo $this->website; ?>/Pengguna/logout">
 			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
 			Logout
@@ -415,16 +425,66 @@ class Aplikasi {
 				$('#dataTable').DataTable();
 			} );
 		</script>
+
+		<script>
+			if("<?php echo $_SESSION['user']->level?>" == "Mahasiswa")
+			{
+				document.getElementById("menu1").style.display = "none";
+				document.getElementById("menu3").style.display = "none";
+				document.getElementById("menugaris").style.display = "none";
+				document.getElementById("menuprofile").style.display = "none";
+			}
+			else{	}
+		</script>
 		<script src="<?php echo $this->website; ?>/vendor/jquery/jquery.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<script src="<?php echo $this->website; ?>/js/sb-admin-2.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/chart.js/Chart.min.js"></script>
-		<script src="<?php echo $this->website; ?>/js/demo/chart-area-demo.js"></script>
-		<script src="<?php echo $this->website; ?>/js/demo/chart-pie-demo.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/datatables/jquery.dataTables.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 		<script src="<?php echo $this->website; ?>/js/demo/datatables-demo.js"></script>
+		<script src="<?php echo $this->website; ?>/vendor/chart.js/Chart.min.js"></script>
+		<script src="<?php echo $this->website; ?>/vendor/select2/select2.min.js"></script>
+		<script src="<?php echo $this->website; ?>/vendor/tilt/tilt.jquery.min.js"></script>
+		<script >
+			$('.js-tilt').tilt({
+				scale: 1.1
+			})
+		</script>
+		<script src="<?php echo $this->website; ?>/js/main.js"></script>
+		<script>
+          var ctx = document.getElementById("chart");
+          var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: ["Angkatan 2012", "Angkatan 2013", "Angkatan 2014", "Angkatan 2015", "Angkatan 2016", "Angkatan 2017", "Angkatan 2018", ],
+              datasets: [{
+                data: [30, 40, 50, 60, 70, 80, 90],
+                backgroundColor: ['#FFC100', '#A6FF00', '#00FF7C', '#00FBFF', '#0070FF', '#5500FF', '#E000FF'],
+                hoverBackgroundColor: ['#FF0000', '#FF0000', '#FF0000', '#FF0000', '#FF0000', '#FF0000', '#FF0000'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+              }],
+            },
+            options: {
+              maintainAspectRatio: false,
+              tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+              },
+              legend: {
+                display: false
+              },
+              cutoutPercentage: 80,
+            },
+          });
+		</script>
     </body>
 </html>
 <?php

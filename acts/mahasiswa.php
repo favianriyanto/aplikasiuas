@@ -196,7 +196,7 @@ class ModelMahasiswa extends Model
                 FROM advisorstudents s
                 LEFT OUTER JOIN educators d
                 ON (s.educators_id = d.id)
-                ORDER BY s.nama LIMIT 0, 1000";
+                ORDER BY s.nama, concat(20,SUBSTRING(s.nim,2,2))";
         try {
             $stmt = $app->connection->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -285,7 +285,7 @@ class ViewMahasiswa extends View
             <div class="col-md-6 col-sm-12">
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
-                        <h1>Mahasiswa</h1>
+                        <h1>Mahasiswa (BETA)</h1>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
                             <label for="username" class="control-label">Username</label>
                             <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
