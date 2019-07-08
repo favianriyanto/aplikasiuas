@@ -886,7 +886,7 @@ input[type="checkbox][disabled"]:checked + .pmd-switch-label::after {background-
 
 /* ==========  Sidebar  ========== */
 /* -- Content --------------------------------------- */
-.constructor, .pmd-content{ position: relative; margin: 0; padding-top:74px; padding-left:30px; padding-right:30px; -webkit-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1); -o-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1); transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);}
+.constructor, .pmd-content{ position: relative; margin: 0; padding-left:30px; padding-right:30px; -webkit-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1); -o-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1); transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);}
 @media (max-width: 767px) {
 .constructor, .pmd-content{ padding-left: 16px; padding-right: 16px;}
 }

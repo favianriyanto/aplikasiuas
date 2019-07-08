@@ -1,0 +1,20 @@
+Syarat tugas
+
+PDO --> karna uasnya PDO
+Koding PHP biasa
+
+
+todo
+
+//detik pada jam jadwal dihapus
+//buat table untuk pengisian krs
+//level cuman dua yaitu sekjur dan mahasiswa
+//login mahasiswa menggunakan usernya nim dan password nim
+menu pada class hiddennya coba di menunya langsung
+id pada setiap menu edit setiap php, harus ada variabel id di $sql nya
+
+//tidak pakai notif
+
+bug
+
+setelah ganti akses kalau ga ganti passowrd akan ter md5 juga

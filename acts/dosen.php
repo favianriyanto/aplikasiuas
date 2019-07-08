@@ -4,8 +4,8 @@ global $app;
 if (!$app) {
    header("Location:../index.php");
 }
-else if($_SESSION['user']->level!="Administrator"){
-    header("location:../index.php");
+else if($_SESSION['user']->level!="Sekjur"){
+    header("Location:../403.html");
 }
 
 class ControllerDosen extends Controller {
@@ -18,16 +18,6 @@ class ControllerDosen extends Controller {
         $model = new ModelDosen();
         $view = new ViewDosen();
         $view->index($model->findAll());
-    }
-
-    public function login() {
-        $model = new ModelDosen();
-        $model->login();
-    }
-
-    public function logout() {
-        $model = new ModelDosen();
-        $model->logout();
     }
 
     public function entry($id = 0) {
@@ -49,11 +39,75 @@ class ControllerDosen extends Controller {
 
 class ModelDosen extends Model {
     public $id = 0;
-    public $username = '';
-    public $password = '';
-    public $level = '';
+    public $identity_type = '';
+    public $identity_number = '';
+    public $nidn = '';
+    public $code = '';
+    public $code_alias = '';
     public $name = '';
-    public $position = '';
+    public $sex = '';
+    public $active = '';
+    public $employment_status = '';
+    public $place_of_birth = '';
+    public $date_of_birth = '';
+    public $adress = '';
+    public $job = '';
+
+
+    public function save($id)
+    {
+        global $app;
+
+        $id = isset($_POST['id']) ? $_POST['id'] : 0;
+        $identity_type = isset($_POST['identity_type']) ? $_POST['identity_type'] : '';
+        $identity_number = isset($_POST['identity_number']) ? $_POST['identity_number'] : '';
+        $nidn = isset($_POST['nidn']) ? $_POST['nidn'] : '';
+        $code = isset($_POST['code']) ? $_POST['code'] : '';
+        $code_alias = isset($_POST['code_alias']) ? $_POST['code_alias'] : '';
+        $name = isset($_POST['name']) ? $_POST['name'] : '';
+        $sex = isset($_POST['sex']) ? $_POST['sex'] : '';
+        $active = isset($_POST['active']) ? $_POST['active'] : '';
+        $employment_status = isset($_POST['employment_status']) ? $_POST['employment_status'] : '';
+        $place_of_birth = isset($_POST['place_of_birth']) ? $_POST['place_of_birth'] : '';
+        $date_of_birth = isset($_POST['date_of_birth']) ? $_POST['date_of_birth'] : '';
+        $address = isset($_POST['adress']) ? $_POST['adress'] : '';
+        $job = isset($_POST['job']) ? $_POST['job'] : '';
+
+
+                $sql = "UPDATE educators
+                        SET identity_type=:identity_type, identity_number=:identity_number, nidn=:nidn,
+                        code=:code, code_alias=:code_alias, name=:name, sex=:sex, active=:active, employment_status=:employment_status,
+                        place_of_birth=:place_of_birth, date_of_birth=:date_of_birth, address=:address, job=:job
+                        WHERE id=:id";
+                $params = array(
+                    ':id' => $id,
+                    ':identity_type' => $identity_type,
+                    ':identity_number' => $identity_number,
+                    ':nidn' => $nidn,
+                    ':code' => $code,
+                    ':code_alias' => $code_alias,
+                    ':name' => $name,
+                    ':sex' => $sex,
+                    ':active' => $active,
+                    ':employment_status' => $employment_status,
+                    ':place_of_birth' => $place_of_birth,
+                    ':date_of_birth' => $date_of_birth,
+                    ':address' => $adress,
+                    ':job' => $job
+                );
+
+        try {
+            $stmt = $app->connection->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute($params);
+
+            $stmt->closeCursor();
+        } catch (PDOException $ex) {
+            die($ex->getMessage());
+        }
+
+        header("Location:".$app->website."/Dosen/index?message=".implode('<br>', $message));
+    }
 
     public function delete($id = 0) {
         global $app;
@@ -80,74 +134,7 @@ class ModelDosen extends Model {
 
         header("Location:".$app->website."/Dosen/index");
     }
-
-    public function save($id) {
-        global $app;
-
-        $id = isset($_POST['id']) ? $_POST['id'] : 0;
-        $username = isset($_POST['username']) ? $_POST['username'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-        $level = isset($_POST['level']) ? $_POST['level'] : '';
-        $name = isset($_POST['name']) ? $_POST['name'] : '';
-        $position = isset($_POST['position']) ? $_POST['position'] : '';
-
-        $message = array();
-        if ($username == '') {
-            $message[] = "Username harus diisi";
-        }
-
-        if ($id > 0) {
-            if ($password != ''){
-                $sql = "UPDATE educators
-                        SET username=:username, password=:password, name=:name, position=:position, level=:level
-                        WHERE id=:id";
-                $params = array(
-                    ':id' => $id,
-                    ':username' => $username,
-                    ':password' => md5($password),
-                    ':name' => $name,
-                    ':position' => $position,
-                    ':level' => $level
-                );
-            } else {
-                $sql = "UPDATE educators
-                        SET username=:username, name=:name, position=:position level=:level
-                        WHERE id=:id";
-                $params = array(
-                    ':id' => $id,
-                    ':username' => $username,
-                    ':name' => $name,
-                    ':position' => $position,
-                    ':level' => $level
-                );
-            }
-        } else {
-            $sql = "INSERT INTO educators (
-                        username, password, name, position, level
-                    ) VALUES (
-                        :username, :password, :name, :position, :level
-                    )";
-            $params = array(
-                ':username' => $username,
-                ':password' => md5($password),
-                ':name' => $name,
-                ':position' => $position,
-                ':level' => $level
-            );
-        }
-
-        try {
-			$stmt = $app->connection->prepare($sql);
-			$stmt->setFetchMode(PDO::FETCH_OBJ);
-			$stmt->execute($params);
-			
-			$stmt->closeCursor();
-		}catch (PDOException $ex){
-			die($ex->getMessage());
-        }
-
-        header("Location:".$app->website."/Dosen/index?message=".implode('<br>', $message));
-    }
+        
 
     public function find($id) {
         global $app;
@@ -185,7 +172,7 @@ class ModelDosen extends Model {
 
         $result = array();
 
-        $sql = "SELECT d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, DATE_FORMAT(d.date_of_birth,'%d/%M/%Y') as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
+        $sql = "SELECT d.id as id, d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, DATE_FORMAT(d.date_of_birth,'%d/%M/%Y') as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
                 FROM educators d
                 ORDER BY nama";
         try {
@@ -204,62 +191,6 @@ class ModelDosen extends Model {
 
         return $result;
     }
-
-    public function login() {
-        global $app;
-		
-		$username = isset($_POST['username']) ? $_POST ['username'] : '';
-		$password = isset($_POST['password']) ? $_POST ['password'] : '';
-        
-		if ($username == '' || $password == '') {
-			header("Location:".$app->website);
-		}
-		
-		$sql = "SELECT *
-				FROM users
-				WHERE username=:username
-				AND password=MD5(:password)";
-		$params = array(
-				':username' => $username,
-				':password' => $password
-		);
-		
-		$result = null;
-		
-		try {
-			$stmt = $app->connection->prepare($sql);
-			$stmt->setFetchMode(PDO::FETCH_OBJ);
-			$stmt->execute($params);
-			
-			$result = $stmt->fetch();
-			
-			$stmt->closeCursor();
-		}catch (PDOException $ex){
-			die($ex->getMessage());
-        }
-        
-        if($result) {
-			$objUser = new stdClass();
-			$objUser->ID = $result->id;
-			$objUser->nama = $result->username;
-            $objUser->level = $result->level;
-            $objUser->ayam = $result->name;
-			
-			$_SESSION =	array();
-			$_SESSION['user'] = $objUser;
-			
-			header('Location:'.$app->website.'/Beranda/dashboard');
-		}else {
-			header("Location:".$app->website);
-		}
-    }
-    public function logout() {
-        global $app;
-
-		$_SESSION = array();
-		
-		header('Location:'.$app->website);
-    }
 }
 
 class ViewDosen extends View {
@@ -273,55 +204,72 @@ class ViewDosen extends View {
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
                         <h1>Dosen(BETA)</h1> 
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="username" class="control-label">Nama Lengkap</label>
-                            <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="name" class="control-label">Nama Lengkap</label>
+                            <input type="text" id="username" name="name" class="form-control" value="<?php echo $result->name; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="password" class="control-label">Tanggal Lahir</label>
-                            <input id="password" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="date_of_birth" class="control-label">Tanggal Lahir</label>
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" value="<?php echo $result->date_of_birth; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="name" class="control-label">Tempat Lahir</label>
-                            <input id="name" name="name" class="form-control" value="<?php echo $result->name; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="place_of_birth" class="control-label">Tempat Lahir</label>
+                            <input id="place_of_birth" name="place_of_birth" class="form-control" value="<?php echo $result->place_of_birth; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="position" class="control-label">Kode</label>
-                            <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="sex" class="control-label">Jenis Kelamin</label>
+                            <select class="form-control" id="sex" name="sex">
+                        <?php
+                            $sex = array("Laki-laki", "Perempuan");
+                            foreach ($sex as $v) {
+                        ?>
+                            <option value="<?php echo $v; ?>" <?php echo ($v == $result->sex) ? 'selected' : ''; ?>><?php echo $v; ?></option>
+                        <?php
+                            }
+                        ?>
+                            </select>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="position" class="control-label">Kode Alias</label>
-                            <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="code" class="control-label">Kode</label>
+                            <input id="code" name="code" class="form-control" value="<?php echo $result->code; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield">
-                            <label for="position" class="control-label">Tipe Identitas</label>
+                        <div>
+                            <label for="code_alias" class="control-label">Kode Alias</label>
+                            <input id="code_alias" name="code_alias" class="form-control" value="<?php echo $result->code_alias; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="identity_type" class="control-label">Tipe Identitas</label>
                             <select class="form-control" id="identity_type" name="identity_type">
-<?php
-    $level = array("NIP", "NIK");
-    foreach ($level as $v) {
-?>
-                                <option value="<?php echo $v; ?>" <?php echo ($v == $result->level) ? 'selected' : ''; ?>><?php echo $v; ?></option>
-<?php
-    }
-?>
+                        <?php
+                            $identity_type = array("NIP", "NIK");
+                            foreach ($identity_type as $v) {
+                        ?>
+                            <option value="<?php echo $v; ?>" <?php echo ($v == $result->identity_type) ? 'selected' : ''; ?>><?php echo $v; ?></option>
+                        <?php
+                            }
+                        ?>
                             </select>
                         </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="position" class="control-label">Kode Alias</label>
-                            <input id="position" name="position" class="form-control" value="<?php echo $result->position; ?>"><span class="pmd-textfield-focused"></span>
+                        <div>
+                            <label for="job" class="control-label">Job</label>
+                            <input id="job" name="job" class="form-control" value="<?php echo $result->job; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
-                        <div class="form-group pmd-textfield">
-                            <label for="level" class="control-label">Level Akses</label>
-                            <select class="form-control" id="level" name="level">
-<?php
-    $level = array("Administrator", "Dosen", "Mahasiswa");
-    foreach ($level as $v) {
-?>
-                                <option value="<?php echo $v; ?>" <?php echo ($v == $result->level) ? 'selected' : ''; ?>><?php echo $v; ?></option>
-<?php
-    }
-?>
+                        <div>
+                            <label for="active" class="control-label">Status</label>
+                            <select class="form-control" id="active" name="active">
+                        <?php
+                            $active = array("Aktif", "Tugas Belajar", "Tidak Aktif");
+                            foreach ($active as $v) {
+                        ?>
+                             <option value="<?php echo $v; ?>" <?php echo ($v == $result->active) ? 'selected' : ''; ?>><?php echo $v; ?></option>
+                        <?php
+                            }
+                        ?>
                             </select>
+                        </div>
+                        <div>
+                            <label for="adress" class="control-label">Alamat</label>
+                            <input id="adress" name="adress" class="form-control" value="<?php echo $result->address; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                     </div>
                     <div class="pmd-card-action" style="padding:20px;">
@@ -338,7 +286,7 @@ class ViewDosen extends View {
     public function index($result) {
         global $app;
 ?>
-<div style="margin-top:-70px; margin-bottom:20px;">
+<div style="margin-bottom:20px;">
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Dosen/entry/0">Tambah</a>
     </div>
 <div class="card shadow mb-4">
@@ -369,7 +317,7 @@ class ViewDosen extends View {
                         <a href="<?php echo $app->website; ?>/Dosen/entry/<?php echo $obj->id; ?>">
                         <i class="fas fa-edit fa-2x"></i>
                         </a>
-                        <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->nim; ?>');">
+                        <a onClick="javascript:return confirm('are you sure you want to delete this?');" href="<?php echo $app->website; ?>/Pengguna/delete/<?php echo $obj->id; ?>">
                         <i class="fas fa-trash fa-2x"></i>
                         </a>
                     </td>

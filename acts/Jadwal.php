@@ -17,18 +17,6 @@ class ControllerJadwal extends Controller
         $view->index($model->findAll());
     }
 
-    public function login()
-    {
-        $model = new ModelJadwal();
-        $model->login();
-    }
-
-    public function logout()
-    {
-        $model = new ModelJadwal();
-        $model->logout();
-    }
-
     public function entry($id = 0)
     {
         $model = new ModelJadwal();
@@ -55,7 +43,7 @@ class ModelJadwal extends Model
     public $username = '';
     public $password = '';
     public $level = '';
-    public $matkul = '';
+    public $name = '';
     public $position = '';
 
     public function delete($id = 0)
@@ -93,7 +81,7 @@ class ModelJadwal extends Model
         $username = isset($_POST['username']) ? $_POST['username'] : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         $level = isset($_POST['level']) ? $_POST['level'] : '';
-        $matkul = isset($_POST['c.name']) ? $_POST['c.name'] : '';
+        $name = isset($_POST['name']) ? $_POST['name'] : '';
         $position = isset($_POST['position']) ? $_POST['position'] : '';
 
         $message = array();
@@ -192,10 +180,10 @@ class ModelJadwal extends Model
 
         $result = array();
 
-        $sql = "SELECT CONCAT(c.name ,' - ',tc.name) as matkul, c.code as kode, tc.name as kelas, c.credit_unit as sks, d.name as dosen, r.name as ruang, t.day_name, t.start_time as masuk, max(t.end_time) as keluar
-                FROM teachingcredits tc, educators d, courses c, schedules s, rooms r, times t
-                Where tc.educators_id = d.id AND tc.courses_id = c.id and s.teachingcredits_id = tc.id and s.rooms_id = r.id and s.times_id = t.id
-                group by matkul";
+        $sql = "SELECT CONCAT(c.name ,' - ',tc.name) as matkul, d.name as dosen, t.day_name as hari, c.credit_unit as sks, c.code as kode, r.name as ruang, t.day_name as hari, DATE_FORMAT(t.start_time,'%H:%i')  as masuk, DATE_FORMAT(max(t.end_time),'%H:%i') as keluar
+                FROM teachingcredits tc, educators d, courses c, schedules s, rooms r, times t, classstudents cs
+                Where tc.educators_id = d.id AND tc.courses_id = c.id and s.teachingcredits_id = tc.id and s.rooms_id = r.id and s.times_id = t.id and cs.teachingcredits_id = tc.id and cs.nama = 'FAVIAN AZWADT RIYANTO'
+                group by matkul order by t.id";
         try {
             $stmt = $app->connection->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -212,64 +200,6 @@ class ModelJadwal extends Model
 
         return $result;
     }
-
-    public function login()
-    {
-        global $app;
-
-        $username = isset($_POST['username']) ? $_POST['username'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-
-        if ($username == '' || $password == '') {
-            header("Location:" . $app->website);
-        }
-
-        $sql = "SELECT *
-				FROM users 
-				WHERE username=:username
-				AND password=MD5(:password)";
-        $params = array(
-            ':username' => $username,
-            ':password' => $password
-        );
-
-        $result = null;
-
-        try {
-            $stmt = $app->connection->prepare($sql);
-            $stmt->setFetchMode(PDO::FETCH_OBJ);
-            $stmt->execute($params);
-
-            $result = $stmt->fetch();
-
-            $stmt->closeCursor();
-        } catch (PDOException $ex) {
-            die($ex->getMessage());
-        }
-
-        if ($result) {
-            $objUser = new stdClass();
-            $objUser->ID = $result->id;
-            $objUser->nama = $result->username;
-            $objUser->level = $result->level;
-            $objUser->ayam = $result->name;
-
-            $_SESSION =    array();
-            $_SESSION['user'] = $objUser;
-
-            header('Location:' . $app->website . '/Beranda/dashboard');
-        } else {
-            header("Location:" . $app->website);
-        }
-    }
-    public function logout()
-    {
-        global $app;
-
-        $_SESSION = array();
-
-        header('Location:' . $app->website);
-    }
 }
 
 class ViewJadwal extends View
@@ -284,13 +214,9 @@ class ViewJadwal extends View
             <div class="col-md-6 col-sm-12">
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
-                        <h1>Jadwal</h1>
+                        <h1>Mahasiswa</h1>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="username" class="control-label">Matakuliah</label>
-                            <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
-                        </div>
-                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                            <label for="username" class="control-label">Kelas</label>
+                            <label for="username" class="control-label">Username</label>
                             <input type="text" id="username" name="username" class="form-control" value="<?php echo $result->username; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label">
@@ -334,24 +260,23 @@ public function index($result)
 {
     global $app;
     ?>
-    <div style="margin-top:-70px; margin-bottom:20px;">
-        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Jadwal/entry/0">Tambah</a>
+    <div style="margin-bottom:20px;">
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Jadwal/index">Saya</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/JadwalAll/index">Semua</a>
     </div>
     <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Aksi</th>
                         <th>Kode MK</th>
                         <th>Mata Kuliah - Kelas</th>
-                        <th>Dosen</th>
                         <th>SKS</th>
-                        <th>Hari - Ruangan</th>
-                        <!-- <th>Hari</th> -->
+                        <th>Nama Dosen</th>
+                        <th>Ruangan</th>
+                        <th>Hari</th>
                         <th>Jam</th>
-                        <!-- <th>Keluar</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -359,22 +284,13 @@ public function index($result)
                     foreach ($result as $obj) {
                         ?>
                         <tr>
-                            <td data-title="Aksi">
-                                <a href="<?php echo $app->website; ?>/Jadwal/entry/<?php echo $obj->id; ?>">
-                                <i class="fas fa-edit fa-2x"></i>
-                                </a>
-                                <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->nim; ?>');">
-                                <i class="fas fa-trash fa-2x"></i>
-                                </a>
-                            </td>
-                            <td data-title="dosen"><?php echo $obj->kode; ?></td>
-                            <td data-title="matkul"><?php echo $obj->matkul?></td>
+                            <td data-title="kodemk"><?php echo $obj->kode; ?></td>
+                            <td data-title="matkul"><?php echo $obj->matkul; ?></td>
+                            <td data-title="sks"><?php echo $obj->sks; ?></td>
                             <td data-title="dosen"><?php echo $obj->dosen; ?></td>
-                            <td data-title="kelas"><?php echo $obj->sks; ?></td>
-                            <td data-title="ruang"><?php echo $obj->day_name. " - " .$obj->ruang; ?></td>
-                            <!-- <td data-title="hari"><?php echo $obj->day_name; ?></td> -->
-                            <td data-title="nasuk"><?php echo $obj->masuk. " - " .$obj->keluar; ?></td>
-                            <!-- <td data-title="keluar"><?php echo $obj->keluar; ?></td> -->
+                            <td data-title="ruangan"><?php echo $obj->ruang; ?></td>
+                            <td data-title="hari"><?php echo $obj->hari; ?></td>
+                            <td data-title="jam"><?php echo $obj->masuk. " - " .$obj->keluar; ?></td>
                             
                         </tr>
                     <?php

@@ -17,18 +17,6 @@ class ControllerIsikrs extends Controller
         $view->index($model->findAll());
     }
 
-    public function login()
-    {
-        $model = new ModelIsikrs();
-        $model->login();
-    }
-
-    public function logout()
-    {
-        $model = new ModelIsikrs();
-        $model->logout();
-    }
-
     public function entry($id = 0)
     {
         $model = new ModelIsikrs();
@@ -212,64 +200,6 @@ class ModelIsikrs extends Model
 
         return $result;
     }
-
-    public function login()
-    {
-        global $app;
-
-        $username = isset($_POST['username']) ? $_POST['username'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-
-        if ($username == '' || $password == '') {
-            header("Location:" . $app->website);
-        }
-
-        $sql = "SELECT *
-				FROM users 
-				WHERE username=:username
-				AND password=MD5(:password)";
-        $params = array(
-            ':username' => $username,
-            ':password' => $password
-        );
-
-        $result = null;
-
-        try {
-            $stmt = $app->connection->prepare($sql);
-            $stmt->setFetchMode(PDO::FETCH_OBJ);
-            $stmt->execute($params);
-
-            $result = $stmt->fetch();
-
-            $stmt->closeCursor();
-        } catch (PDOException $ex) {
-            die($ex->getMessage());
-        }
-
-        if ($result) {
-            $objUser = new stdClass();
-            $objUser->ID = $result->id;
-            $objUser->nama = $result->username;
-            $objUser->level = $result->level;
-            $objUser->ayam = $result->name;
-
-            $_SESSION =    array();
-            $_SESSION['user'] = $objUser;
-
-            header('Location:' . $app->website . '/Beranda/dashboard');
-        } else {
-            header("Location:" . $app->website);
-        }
-    }
-    public function logout()
-    {
-        global $app;
-
-        $_SESSION = array();
-
-        header('Location:' . $app->website);
-    }
 }
 
 class ViewIsikrs extends View
@@ -330,6 +260,9 @@ public function index($result)
 {
     global $app;
     ?>
+    <div style="margin-bottom:20px;">
+        <a class="btn pmd-ripple-effect btn-success" href="#">Simpan</a>
+    </div>
     <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">

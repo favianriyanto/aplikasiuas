@@ -1,0 +1,6 @@
+create view v_emp as select employee_id id, first_name fname, department_id dept_id, salary from employees;
+
+
+create view v_gab ("ID", "Nama", "Dep Id", "KOTA")
+AS select e.employee_id, e.first_name, d.department_id, l.city from employees e, departments d, locations l
+where e.department_id = d.department_id and l.location_id = d.location_id
