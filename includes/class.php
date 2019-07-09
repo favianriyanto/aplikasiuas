@@ -30,12 +30,6 @@ class Aplikasi {
 
         session_name("akademik");
         session_start();
-
-        /*if (isset($_REQUEST['act'])) {
-            this->act = $_REQUEST['act'];
-        } else {
-            this->act = 'Beranda';
-        }*/
     }
 
     public function connect(){
@@ -65,22 +59,21 @@ class Aplikasi {
 <html>
     <head>
         <title>Admin - Favian & Ferdian</title>
+        <link rel="icon" href="<?php echo $this->website; ?>/images/logo.png">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/bootstrap.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/propeller.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/bootstrap-datetimepicker.css">
-		
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/sb-admin-2.css">
-        <!-- <link rel="stylesheet" href="<?php echo $this->website; ?>/css/sb-admin-2.min.css"> -->
         <link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/fontawesome-free/css/all.min.css">
-        <link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.css">
-        
+        <link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.css">      
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/util.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/css/main.css">
+        <link rel="stylesheet" href="<?php echo $this->website; ?>/css/buttons.dataTables.min.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/css-hamburgers/hamburgers.min.css">
         <link rel="stylesheet" href="<?php echo $this->website; ?>/vendor/animate/animate.css">
-
     </head>
     <script>
+    // Script untuk timer
     var countDownDate = new Date("<?php echo $_SESSION['user']->kambing?>").getTime();
 
     var x = setInterval(function() {
@@ -94,7 +87,7 @@ class Aplikasi {
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById("timer").innerHTML = days + " Hari " + hours + " Jam "
+      document.getElementById("timer").innerHTML = days + " Hari " + hours + " Jam <br>"
       + minutes + " Menit " + seconds + " detik ";
         
       if (distance < 0) {
@@ -104,13 +97,17 @@ class Aplikasi {
       }
     }, 1000);
     </script>
+    <script>
+      $levelakses = "<?php echo $_SESSION['user']->level; ?>"
+      </script>
     <body id="page-top"> 
         <?php
             if ($this->act == 'Beranda' &&  $this->task == 'index') {
                 echo $html;
             } else {
 				?>
-
+<?php
+$levelakses = $_SESSION['user']->level;?>
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -144,7 +141,7 @@ class Aplikasi {
 </div>
 
 <!-- Nav Item - Utilities Collapse Menu -->
-<li id="menusekjur" class="nav-item active">
+<li id="menusekjur" class="nav-item active" <?php if ($levelakses == 'Mahasiswa'){?>style="display:none"<?php } ?>>
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-wrench"></i>
           <span>Menu Sekjur</span>
@@ -162,7 +159,7 @@ class Aplikasi {
       </li>
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li id="menuriwayatkrs" class="nav-item active">
+<li id="menuriwayatkrs" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
 	<i class="fas fa-fw fa-folder"></i>
 	<span>Riwayat KRS</span>
@@ -174,47 +171,43 @@ class Aplikasi {
     <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 2</a>
     <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 3</a>
 	  <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 4</a>
-	  <!-- <div class="collapse-divider"></div>
-	  <h6 class="collapse-header">Other Pages:</h6>
-	  <a class="collapse-item" href="404.html">404 Page</a>
-	  <a class="collapse-item" href="blank.html">Blank Page</a> -->
 	</div>
   </div>
 </li>
 
 <!-- Nav Item - Charts -->
 
-<li id="menu3" class="nav-item active">
+<li id="menu3" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/Isikrs/index">
 	<i class="fas fa-fw fa-table"></i>
 	<span>Isi KRS</span></a>
 </li>
 
-<li id="menu4" class="nav-item active">
+<li id="menu4" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/Matkul/index">
 	<i class="fas fa-fw fa-book"></i>
 	<span>Mata Kuliah</span></a>
 </li>
 
-<li id="menu5" class="nav-item active">
+<li id="menu5" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/Jadwal/index">
 	<i class="fas fa-fw fa-clock"></i>
 	<span>Jadwal</span></a>
 </li>
 
-<li id="menu6" class="nav-item active">
+<li id="menu6" class="nav-item active" <?php if ($levelakses == 'Mahasiswa'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/DataJadwal/index">
 	<i class="fas fa-fw fa-clock"></i>
 	<span>Data Jadwal</span></a>
 </li>
 
-<li id="menu7" class="nav-item active">
+<li id="menu7" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/Kelas/index">
 	<i class="fas fa-fw fa-table"></i>
 	<span>Kelas</span></a>
 </li>
 
-<li id="menu8" class="nav-item active">
+<li id="menu8" class="nav-item active" <?php if ($levelakses == 'Mahasiswa'){?>style="display:none"<?php } ?>>
   <a class="nav-link" href="<?php echo $this->website; ?>/DataMatkul/index">
 	<i class="fas fa-fw fa-table"></i>
 	<span>Data Mata Kuliah</span></a>
@@ -245,10 +238,37 @@ class Aplikasi {
 	  <i class="fa fa-bars"></i>
 	</button>
 
-	<!-- DISINI BUAT TIMERNYA -->
+	
 
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - Alerts -->
+              <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="<?php echo $this->website; ?>/Faq/index" id="alertsDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              F.A.Q &nbsp;  <i class="fas fa-question-circle fa-fw"></i>
+              </a>
+            </li>
+
+<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+<li class="nav-item dropdown no-arrow d-sm-none">
+  <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-search fa-fw"></i>
+  </a>
+  <!-- Dropdown - Messages -->
+  <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+    <form class="form-inline mr-auto w-100 navbar-search">
+      <div class="input-group">
+        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search fa-sm"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</li>
 
 	  <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -260,11 +280,11 @@ class Aplikasi {
 		</a>
 		<!-- Dropdown - User Information -->
 		<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-		  <a id="menuprofile" class="dropdown-item" href="<?php echo $this->website; ?>/Pengguna/index">
+		  <a id="menuprofile" class="dropdown-item" <?php if ($levelakses == 'Mahasiswa'){?>style="display:none"<?php } ?> href="<?php echo $this->website; ?>/Pengguna/index">
 			<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 			Profile
 		  </a>
-		  <div id="menugaris" class="dropdown-divider"></div>
+		  <div id="menugaris" class="dropdown-divider" <?php if ($levelakses == 'Mahasiswa'){?>style="display:none"<?php } ?>></div>
 		  <a class="dropdown-item" href="<?php echo $this->website; ?>/Pengguna/logout">
 			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
 			Logout
@@ -288,36 +308,44 @@ class Aplikasi {
 <?php
         
 ?>
-		<script>
-			$(document).ready( function () {
-				$('#dataTable').DataTable();
-			} );
-		</script>
-
-		<!-- <script>
-			if("<?php echo $_SESSION['user']->level?>" == "Mahasiswa")
-			{
-				document.getElementById("menu1").style.display = "none";
-				document.getElementById("menu3").style.display = "none";
-				document.getElementById("menugaris").style.display = "none";
-				document.getElementById("menuprofile").style.display = "none";
-        document.getElementById("tambahmahasiswa").style.display = "none";
-			}
-			else{	}
-		</script> -->
 		<script src="<?php echo $this->website; ?>/vendor/jquery/jquery.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<script src="<?php echo $this->website; ?>/js/sb-admin-2.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/chart.js/Chart.min.js"></script>
-		<script src="<?php echo $this->website; ?>/vendor/datatables/jquery.dataTables.min.js"></script>
-		<script src="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="<?php echo $this->website; ?>/js/demo/datatables-demo.js"></script>
-    <script src="<?php echo $this->website; ?>/js/jquery-1.12.2.min.js.js"></script>
+    <script src="<?php echo $this->website; ?>/js/jquery-3.3.1.js"></script>
     <script src="<?php echo $this->website; ?>/js/bootstrap-datetimepicker.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/chart.js/Chart.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/select2/select2.min.js"></script>
 		<script src="<?php echo $this->website; ?>/vendor/tilt/tilt.jquery.min.js"></script>
+
+
+    <!-- script untuk tabel -->
+    <script src="<?php echo $this->website; ?>/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo $this->website; ?>/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo $this->website; ?>/js/buttons.flash.min.js"></script>
+    <script src="<?php echo $this->website; ?>/js/jszip.min.js"></script>
+    <script src="<?php echo $this->website; ?>/js/pdfmake.min.js"></script>
+    <script src="<?php echo $this->website; ?>/js/vfs_fonts.js"></script>
+    <script src="<?php echo $this->website; ?>/vendor/datatables/jquery.dataTables.min.js"></script>
+		<script src="<?php echo $this->website; ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#tabelisikrs').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+              'copy', 'csv', 'excel', 'pdf', 'print'
+          ]
+      } );
+  } );
+    </script>
+		<script>
+			$(document).ready( function () {
+				$('#dataTable').DataTable();
+			} );
+		</script>
 		<script >
 			$('.js-tilt').tilt({
 				scale: 1.1
@@ -388,28 +416,13 @@ class Aplikasi {
             },
           });
     </script>
-    <script>
-			if("<?php echo $_SESSION['user']->level?>" == "Mahasiswa")
-			{
-				document.getElementById("menusekjur").style.display = "none";
-				document.getElementById("menu6").style.display = "none";
-				document.getElementById("menugaris").style.display = "none";
-				document.getElementById("menuprofile").style.display = "none";
-        document.getElementById("menu8").style.display = "none";
-			}
-      if("<?php echo $_SESSION['user']->level?>" == "Sekjur")
-			{
-				document.getElementById("menuriwayatkrs").style.display = "none";
-				document.getElementById("menu5").style.display = "none";
-				document.getElementById("menu7").style.display = "none";
-				document.getElementById("menu4").style.display = "none";
-        document.getElementById("menu3").style.display = "none";
-			}
-			else{	}
-    </script>
     <script type="text/javascript">
       $(function () {
-        $('#datetimepicker1').datetimepicker();
+        $("#datetimepicker1").datetimepicker({
+        format: "dd M yyyy hh:ii:ss",
+        todayBtn: true,
+    });
+
       });
     </script>
     </body>

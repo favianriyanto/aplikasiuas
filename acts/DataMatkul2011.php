@@ -161,10 +161,10 @@ class ViewDataMatkul2011 extends View {
                 <tr>
                     <td data-title="Aksi">
                         <a href="<?php echo $app->website; ?>/DataMatkul/entry/<?php echo $obj->id; ?>">
-                        <i class="fas fa-edit fa-2x"></i>
+                        <i class="fas fa-edit fa-2x" style="color:#4e73df"></i>
                         </a>
                         <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->nim; ?>');">
-                        <i class="fas fa-trash fa-2x"></i>
+                        <i class="fas fa-trash fa-2x" style="color:#e74a3b"></i>
                         </a>
                     </td>
                     <td data-title="kodematkul"><?php echo $obj->code; ?></td>

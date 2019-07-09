@@ -8,39 +8,39 @@ if($_SESSION['user']->level!="Sekjur"){
     header("Location:../403.html");
 }
 
-class ControllerPenggunaAdmin extends Controller
+class ControllerPenggunaSekjur extends Controller
 {
     public function __construct()
     { }
 
     public function index()
     {
-        $model = new ModelPenggunaAdmin();
-        $view = new ViewPenggunaAdmin();
+        $model = new ModelPenggunaSekjur();
+        $view = new ViewPenggunaSekjur();
         $view->index($model->findAll());
     }
 
     public function entry($id = 0)
     {
-        $model = new ModelPenggunaAdmin();
-        $view = new ViewPenggunaAdmin();
+        $model = new ModelPenggunaSekjur();
+        $view = new ViewPenggunaSekjur();
 
         $view->entry($model->find($id));
     }
     public function save($id)
     {
-        $model = new ModelPenggunaAdmin();
+        $model = new ModelPenggunaSekjur();
         $model->save($id);
     }
 
     public function delete($id = 0)
     {
-        $model = new ModelPenggunaAdmin();
+        $model = new ModelPenggunaSekjur();
         $model->delete($id);
     }
 }
 
-class ModelPenggunaAdmin extends Model
+class ModelPenggunaSekjur extends Model
 {
     public $id = 0;
     public $username = '';
@@ -73,7 +73,7 @@ class ModelPenggunaAdmin extends Model
             }
         }
 
-        header("Location:" . $app->website . "/PenggunaAdmin/index");
+        header("Location:" . $app->website . "/PenggunaSekjur/index");
     }
 
     public function find($id)
@@ -116,7 +116,7 @@ class ModelPenggunaAdmin extends Model
 
         $sql = "SELECT *
                 FROM users
-                WHERE level='Administrator'
+                WHERE level='Sekjur'
                 ORDER BY username";
         try {
             $stmt = $app->connection->prepare($sql);
@@ -136,7 +136,7 @@ class ModelPenggunaAdmin extends Model
     }
 }
 
-class ViewPenggunaAdmin extends View
+class ViewPenggunaSekjur extends View
 {
 public function index($result)
 {
@@ -145,7 +145,7 @@ public function index($result)
     <div style="margin-bottom:20px;">
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/entry/0">Tambah</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/index">Semua</a>
-        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaAdmin/index">Admin</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaSekjur/index">Sekjur</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaMahasiswa/index">Mahasiswa</a>
     </div>
     <div class="card shadow mb-4">
@@ -169,10 +169,10 @@ public function index($result)
                         <tr>
                             <td data-title="Aksi">
                                 <a href="<?php echo $app->website; ?>/Pengguna/entry/<?php echo $obj->id; ?>">
-                                <i class="fas fa-edit fa-2x"></i>
+                                <i class="fas fa-edit fa-2x" style="color:#4e73df"></i>
                                 </a>
                                 <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->username; ?>');">
-                                <i class="fas fa-trash fa-2x"></i>
+                                <i class="fas fa-trash fa-2x" style="color:#e74a3b"></i>
                                 </a>
                             </td>
                             <td data-title="Username"><?php echo $obj->username; ?></td>

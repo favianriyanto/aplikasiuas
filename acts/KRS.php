@@ -261,12 +261,12 @@ public function index($result)
     global $app;
     ?>
     <div style="margin-bottom:20px;">
-        <a class="btn pmd-ripple-effect btn-success" href="">Cetak KRS</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/acts/cetak.php">Cetak KRS</a>
     </div>
     <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tabelisikrs" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Kode Mata Kuliah</th>

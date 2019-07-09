@@ -50,8 +50,13 @@ class ModelDosen extends Model {
     public $employment_status = '';
     public $place_of_birth = '';
     public $date_of_birth = '';
-    public $adress = '';
+    public $address = '';
     public $job = '';
+    public $email1 = '';
+    public $email2 = '';
+    public $phone1 = '';
+    public $phone2 = '';
+    public $description = '';
 
 
     public function save($id)
@@ -72,12 +77,18 @@ class ModelDosen extends Model {
         $date_of_birth = isset($_POST['date_of_birth']) ? $_POST['date_of_birth'] : '';
         $address = isset($_POST['adress']) ? $_POST['adress'] : '';
         $job = isset($_POST['job']) ? $_POST['job'] : '';
+        $email1 = isset($_POST['email1']) ? $_POST['email1'] : '';
+        $email2 = isset($_POST['email2']) ? $_POST['email2'] : '';
+        $phone1 = isset($_POST['phone1']) ? $_POST['phone1'] : '';
+        $phone2 = isset($_POST['phone2']) ? $_POST['phone2'] : '';
+        $description = isset($_POST['description']) ? $_POST['description'] : '';
 
-
+        if ($id > 0) {
                 $sql = "UPDATE educators
                         SET identity_type=:identity_type, identity_number=:identity_number, nidn=:nidn,
                         code=:code, code_alias=:code_alias, name=:name, sex=:sex, active=:active, employment_status=:employment_status,
-                        place_of_birth=:place_of_birth, date_of_birth=:date_of_birth, address=:address, job=:job
+                        place_of_birth=:place_of_birth, date_of_birth=:date_of_birth, address=:address, job=:job, email1=:email1, email2=:email2, phone1=:phone1, phone2=:phone2,
+                        description=:description
                         WHERE id=:id";
                 $params = array(
                     ':id' => $id,
@@ -92,9 +103,47 @@ class ModelDosen extends Model {
                     ':employment_status' => $employment_status,
                     ':place_of_birth' => $place_of_birth,
                     ':date_of_birth' => $date_of_birth,
-                    ':address' => $adress,
-                    ':job' => $job
-                );
+                    ':address' => $address,
+                    ':job' => $job,
+                    ':email1' => $email1,
+                    ':email2' => $email2,
+                    ':phone1' => $phone1,
+                    ':phone2' => $phone2,
+                    ':description' => $description
+                );}
+                else{
+                    $sql = "INSERT INTO educators (
+                        identity_type, identity_number, nidn,
+                        code, code_alias, name, sex, active, employment_status,
+                        place_of_birth, date_of_birth, address, job, email1, email2, phone1, phone2,
+                        description
+                    ) VALUES (
+                        :identity_type, :identity_number, :nidn,
+                        :code, :code_alias, :name, :sex, :active, :employment_status,
+                        :place_of_birth, :date_of_birth, :address, :job, :email1, :email2, :phone1, :phone2,
+                        :description
+                    )";
+            $params = array(
+                    ':identity_type' => $identity_type,
+                    ':identity_number' => $identity_number,
+                    ':nidn' => $nidn,
+                    ':code' => $code,
+                    ':code_alias' => $code_alias,
+                    ':name' => $name,
+                    ':sex' => $sex,
+                    ':active' => $active,
+                    ':employment_status' => $employment_status,
+                    ':place_of_birth' => $place_of_birth,
+                    ':date_of_birth' => $date_of_birth,
+                    ':address' => $address,
+                    ':job' => $job,
+                    ':email1' => $email1,
+                    ':email2' => $email2,
+                    ':phone1' => $phone1,
+                    ':phone2' => $phone2,
+                    ':description' => $description
+            );
+                }
 
         try {
             $stmt = $app->connection->prepare($sql);
@@ -172,7 +221,7 @@ class ModelDosen extends Model {
 
         $result = array();
 
-        $sql = "SELECT d.id as id, d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, DATE_FORMAT(d.date_of_birth,'%d/%M/%Y') as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
+        $sql = "SELECT d.id as id, d.identity_number as nip, d.code as kode, d.name as nama, d.place_of_birth as pob, DATE_FORMAT(d.date_of_birth,'%d-%m-%Y') as dob, d.education_level as pendidikan, d.job as jabatan, d.field_of_expertise as keahlian, d.email1 as email, d.phone1 as phone
                 FROM educators d
                 ORDER BY nama";
         try {
@@ -203,7 +252,7 @@ class ViewDosen extends View {
 			<div class="col-md-6 col-sm-12">
                 <div class="pmd-card pmd-z-depth pmd-card-custom-form">
                     <div class="pmd-card-body">
-                        <h1>Dosen(BETA)</h1> 
+                        <h1>Dosen</h1> 
                         <div>
                             <label for="name" class="control-label">Nama Lengkap</label>
                             <input type="text" id="username" name="name" class="form-control" value="<?php echo $result->name; ?>"><span class="pmd-textfield-focused"></span>
@@ -230,6 +279,22 @@ class ViewDosen extends View {
                             </select>
                         </div>
                         <div>
+                            <label for="email1" class="control-label">Email-1</label>
+                            <input id="email1" name="email1" class="form-control" value="<?php echo $result->email1; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="email2" class="control-label">Email-2</label>
+                            <input id="email2" name="email2" class="form-control" value="<?php echo $result->email2; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="phone1" class="control-label">No.Telepon-1</label>
+                            <input id="phone1" name="phone1" class="form-control" value="<?php echo $result->phone1; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="phone2" class="control-label">No.Telepon-2</label>
+                            <input id="phone2" name="phone2" class="form-control" value="<?php echo $result->phone2; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
                             <label for="code" class="control-label">Kode</label>
                             <input id="code" name="code" class="form-control" value="<?php echo $result->code; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
@@ -251,7 +316,11 @@ class ViewDosen extends View {
                             </select>
                         </div>
                         <div>
-                            <label for="job" class="control-label">Job</label>
+                            <label for="identity_number" class="control-label">Nomor Identitas</label>
+                            <input id="identity_number" name="identity_number" class="form-control" value="<?php echo $result->identity_number; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="job" class="control-label">Tugas</label>
                             <input id="job" name="job" class="form-control" value="<?php echo $result->job; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div>
@@ -270,6 +339,10 @@ class ViewDosen extends View {
                         <div>
                             <label for="adress" class="control-label">Alamat</label>
                             <input id="adress" name="adress" class="form-control" value="<?php echo $result->address; ?>"><span class="pmd-textfield-focused"></span>
+                        </div>
+                        <div>
+                            <label for="description" class="control-label">Deskripsi</label>
+                            <input id="description" name="description" class="form-control" value="<?php echo $result->description; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                     </div>
                     <div class="pmd-card-action" style="padding:20px;">
@@ -315,10 +388,10 @@ class ViewDosen extends View {
                 <tr>
                     <td data-title="Aksi">
                         <a href="<?php echo $app->website; ?>/Dosen/entry/<?php echo $obj->id; ?>">
-                        <i class="fas fa-edit fa-2x"></i>
+                        <i class="fas fa-edit fa-2x" style="color:#4e73df"></i>
                         </a>
-                        <a onClick="javascript:return confirm('are you sure you want to delete this?');" href="<?php echo $app->website; ?>/Pengguna/delete/<?php echo $obj->id; ?>">
-                        <i class="fas fa-trash fa-2x"></i>
+                        <a onClick="javascript:return confirm('are you sure you want to delete this?');" href="<?php echo $app->website; ?>/Dosen/delete/<?php echo $obj->id; ?>">
+                        <i class="fas fa-trash fa-2x" style="color:#e74a3b"></i>
                         </a>
                     </td>
                     <td data-title="nip"><?php echo $obj->nip; ?></td>

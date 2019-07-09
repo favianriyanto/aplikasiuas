@@ -129,6 +129,7 @@ class ViewPengaturanKRS extends View
     public function entry($result)
     {
         global $app;
+        $date = $result->jadwalisikrs;
         ?>
     <form action="<?php echo $app->website; ?>/PengaturanKRS/save" method="POST">
         <input type="hidden" name="id" value="<?php echo $result->id; ?>">
@@ -142,7 +143,7 @@ class ViewPengaturanKRS extends View
                                 <div class='col-sm-4'>
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' id="jadwalisikrs" name="jadwalisikrs" class="form-control" value="<?php echo $result->jadwalisikrs; ?>" />
+                                            <input type='text' id="jadwalisikrs" name="jadwalisikrs" class="form-control" value="<?php echo $date?>" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>

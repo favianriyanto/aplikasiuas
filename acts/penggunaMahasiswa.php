@@ -145,7 +145,7 @@ public function index($result)
     <div style="margin-bottom:20px;">
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/entry/0">Tambah</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/index">Semua</a>
-        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaAdmin/index">Admin</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaSekjur/index">Sekjur</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaMahasiswa/index">Mahasiswa</a>
     </div>
     <div class="card shadow mb-4">
@@ -169,10 +169,10 @@ public function index($result)
                         <tr>
                             <td data-title="Aksi">
                                 <a href="<?php echo $app->website; ?>/Pengguna/entry/<?php echo $obj->id; ?>">
-                                <i class="fas fa-edit fa-2x"></i>
+                                <i class="fas fa-edit fa-2x" style="color:#4e73df"></i>
                                 </a>
                                 <a href="javascript:hapus('<?php echo $app->act; ?>', '<?php echo $obj->id; ?>', '<?php echo $obj->username; ?>');">
-                                <i class="fas fa-trash fa-2x"></i>
+                                <i class="fas fa-trash fa-2x" style="color:#e74a3b"></i>
                                 </a>
                             </td>
                             <td data-title="Username"><?php echo $obj->username; ?></td>

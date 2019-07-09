@@ -227,9 +227,9 @@ class ModelPengguna extends Model
         }
 
         $sql = "SELECT *
-				FROM users, times_krs
-				WHERE username=:username
-				AND password=MD5(:password)";
+				FROM users a, times_krs b
+				WHERE a.username=:username
+				AND a.password=MD5(:password)";
         $params = array(
             ':username' => $username,
             ':password' => $password
@@ -256,14 +256,14 @@ class ModelPengguna extends Model
             $objUser->level = $result->level;
             $objUser->ayam = $result->name;
             $objUser->kambing = $result->jadwalisikrs;
+            $objUser->katak = $result->jumlahmhs;
 
-            $_SESSION =    array();
+            $_SESSION = array();
             $_SESSION['user'] = $objUser;
 
             header('Location:' . $app->website . '/Beranda/dashboard');
         } else {
-            header("Location:" . $app->website);
-            echo "<script> alert ('There was an issue with the form')</script>";
+            header("Location:" . $app->website . '/errorlogin.html');
         }
     }
     public function logout()
@@ -337,7 +337,7 @@ public function index($result)
     <div style="margin-bottom:20px;">
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/entry/0">Tambah</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/Pengguna/index">Semua</a>
-        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaAdmin/index">Admin</a>
+        <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaSekjur/index">Sekjur</a>
         <a class="btn pmd-ripple-effect btn-success" href="<?php echo $app->website; ?>/PenggunaMahasiswa/index">Mahasiswa</a>
     </div>
     <div class="card shadow mb-4">
@@ -351,7 +351,6 @@ public function index($result)
                         <th>Nama</th>
                         <th>Posisi</th>
                         <th>Level Akses</th>
-                        <th>Terakhir Login</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -361,17 +360,21 @@ public function index($result)
                         <tr>
                             <td data-title="Aksi">
                                 <a href="<?php echo $app->website; ?>/Pengguna/entry/<?php echo $obj->id; ?>">
-                                <i class="fas fa-edit fa-2x"></i>
+                                <i class="fas fa-edit fa-2x" style="color:#4e73df"></i>
                                 </a>
                                 <a onClick="javascript:return confirm('Apakah anda ingin menghapus data ini?');" href="<?php echo $app->website; ?>/Pengguna/delete/<?php echo $obj->id; ?>">
-                                <i class="fas fa-trash fa-2x"></i>
+                                <i class="fas fa-trash fa-2x" style="color:#e74a3b"></i>
                                 </a>
                             </td>
                             <td data-title="Username"><?php echo $obj->username; ?></td>
                             <td data-title="Nama"><?php echo $obj->name; ?></td>
                             <td data-title="Posisi"><?php echo $obj->position; ?></td>
-                            <td data-title="Level Akses"><?php echo $obj->level; ?></td>
-                            <td data-title="Terakhir Login"><?php echo $obj->login_at; ?></td>
+                            <td data-title="Level Akses">
+                                <a href="#" <?php if ($obj->level == 'Sekjur'){?>class="btn btn-icon-split btn-primary"<?php } else {?>class="btn btn-icon-split btn-success"<?php } ?>>
+                                <span class="icon text-white-50">
+                                </span>
+                                <span class="text"><?php echo $obj->level; ?></span>
+                                </a></td>
                         </tr>
                     <?php
                 }
