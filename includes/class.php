@@ -151,9 +151,10 @@ $levelakses = $_SESSION['user']->level;?>
             <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
             <a class="collapse-item" href="<?php echo $this->website; ?>/Dosen/index"><i class="fas fa-fw fa-chalkboard-teacher"></i>&nbsp;  Data Dosen</a>
             <a class="collapse-item" href="<?php echo $this->website; ?>/Mahasiswa/index"><i class="fas fa-fw fa-users"></i>&nbsp;  Data Mahasiswa</a>
+            <a class="collapse-item" href="<?php echo $this->website; ?>/Admin/krs"><i class="fas fa-fw fa-users"></i>&nbsp;  KRS Mahasiswa</a>
             <a class="collapse-item" href="<?php echo $this->website; ?>/Pengguna/index"><i class="fas fa-fw fa-users-cog"></i>&nbsp;  Data Pengguna</a>
             <a class="collapse-item" href="<?php echo $this->website; ?>/DataKelas/index"><i class="fas fa-fw fa-table"></i>&nbsp;  Data Kelas</a>
-            <a class="collapse-item" href="<?php echo $this->website; ?>/PengaturanKRS/entry/1"><i class="fas fa-fw fa-book"></i>&nbsp;  Pengaturan KRS</a>
+            <a class="collapse-item" href="<?php echo $this->website; ?>/PengaturanKRS/entry/1"><i class="fas fa-fw fa-clock"></i>&nbsp;  Jadwal KRS</a>
           </div>
         </div>
       </li>
@@ -167,10 +168,7 @@ $levelakses = $_SESSION['user']->level;?>
   <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	<div class="bg-white py-2 collapse-inner rounded">
 	  <!-- <h6 class="collapse-header">Login Screens:</h6> -->
-    <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 1</a>
     <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 2</a>
-    <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 3</a>
-	  <a class="collapse-item" href="<?php echo $this->website; ?>/KRS/index"><i class="fas fa-fw fa-book"></i>&nbsp;  Semester 4</a>
 	</div>
   </div>
 </li>
@@ -178,7 +176,7 @@ $levelakses = $_SESSION['user']->level;?>
 <!-- Nav Item - Charts -->
 
 <li id="menu3" class="nav-item active" <?php if ($levelakses == 'Sekjur'){?>style="display:none"<?php } ?>>
-  <a class="nav-link" href="<?php echo $this->website; ?>/Isikrs/index">
+  <a class="nav-link" href="<?php echo $this->website; ?>/Isikrs/isi">
 	<i class="fas fa-fw fa-table"></i>
 	<span>Isi KRS</span></a>
 </li>

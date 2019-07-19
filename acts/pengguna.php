@@ -295,7 +295,7 @@ class ViewPengguna extends View
                         </div>
                         <div>
                             <label for="password" class="control-label">Password</label>
-                            <input id="password" placeholder="*Masukkan password jika ingin mengubah" onfocus="this.value=''" onblur="this.value=''" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
+                            <input id="password" placeholder="*Masukkan password jika ingin mengubah" onfocus="this.value=''" name="password" class="form-control" type="password" value="<?php echo $result->password; ?>"><span class="pmd-textfield-focused"></span>
                         </div>
                         <div>
                             <label for="name" class="control-label">Nama</label>
